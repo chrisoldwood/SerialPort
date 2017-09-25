@@ -1,0 +1,6 @@
+# Visual C++
+[Dd]ebug
+[Rr]elease
+*.ncb
+*.suo
+*.user

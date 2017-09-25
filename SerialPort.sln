@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerialPort", "SerialPort.vcproj", "{C944C7C2-69FE-428C-8D81-A7A4D6804450}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "..\Lib\Core\Core.vcproj", "{790BC113-52FB-4565-8968-79B8B011C520}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wcl", "..\Lib\WCL\Wcl.vcproj", "{9B0335B6-93BE-4604-8497-27431874D758}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C944C7C2-69FE-428C-8D81-A7A4D6804450}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C944C7C2-69FE-428C-8D81-A7A4D6804450}.Debug|Win32.Build.0 = Debug|Win32
+		{C944C7C2-69FE-428C-8D81-A7A4D6804450}.Release|Win32.ActiveCfg = Release|Win32
+		{C944C7C2-69FE-428C-8D81-A7A4D6804450}.Release|Win32.Build.0 = Release|Win32
+		{790BC113-52FB-4565-8968-79B8B011C520}.Debug|Win32.ActiveCfg = Debug|Win32
+		{790BC113-52FB-4565-8968-79B8B011C520}.Debug|Win32.Build.0 = Debug|Win32
+		{790BC113-52FB-4565-8968-79B8B011C520}.Release|Win32.ActiveCfg = Release|Win32
+		{790BC113-52FB-4565-8968-79B8B011C520}.Release|Win32.Build.0 = Release|Win32
+		{9B0335B6-93BE-4604-8497-27431874D758}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9B0335B6-93BE-4604-8497-27431874D758}.Debug|Win32.Build.0 = Debug|Win32
+		{9B0335B6-93BE-4604-8497-27431874D758}.Release|Win32.ActiveCfg = Release|Win32
+		{9B0335B6-93BE-4604-8497-27431874D758}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
