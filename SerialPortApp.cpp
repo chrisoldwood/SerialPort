@@ -19,6 +19,7 @@ enum
 	USAGE	= 0,	//!< Show the program options syntax.
 	VERSION	= 1,	//!< Show the program version and copyright.
 	PORT	= 2,	//!< The COM port number.
+	TEST	= 3,	//!< Test if the port exists.
 };
 
 static Core::CmdLineSwitch s_switches[] = 
@@ -27,6 +28,7 @@ static Core::CmdLineSwitch s_switches[] =
 	{ USAGE,	TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the program options syntax")	},
 	{ VERSION,	TXT("v"),	TXT("version"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the program version")			},
 	{ PORT,		TXT("p"),	TXT("port"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::SINGLE,	TXT("port"),	TXT("The COM port number to write to")		},
+	{ TEST,		NULL,		TXT("test"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Test if the COM port exists")			},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
@@ -46,9 +48,52 @@ SerialPortApp::~SerialPortApp()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Write text from stdin to the serial port.
+
+static int writeText(uint portNumber, tistream& in)
+{
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+	if (device == INVALID_HANDLE_VALUE)
+		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to open serial port"));
+
+	for (tstring line; std::getline(in, line);)
+	{
+		const std::string buffer = T2A(line);
+		if (!::WriteFile(device, buffer.data(), buffer.size(), nullptr, nullptr))
+			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
+	}
+
+	::CloseHandle(device);
+
+	return EXIT_SUCCESS;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Test if the serial port can be opened.
+
+static int testPort(uint portNumber, tostream& out, tostream& err)
+{
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+
+	if (device != INVALID_HANDLE_VALUE)
+	{
+		out << TXT("Port opened successfully.") << std::endl;
+		return EXIT_FAILURE;
+	}
+	else
+	{
+		err << TXT("Failed to open port.") << std::endl;
+		::CloseHandle(device);
+		return EXIT_SUCCESS;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Run the application.
 
-int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tostream& /*err*/)
+int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tostream& err)
 {
 	m_parser.parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT);
 
@@ -73,21 +118,10 @@ int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tos
 	if ((portNumber < 1) || (portNumber > 9) )
 		throw Core::CmdLineException(TXT("Invalid COM port number, expecting 1-9"));
 
-	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
-	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
-	if (device == INVALID_HANDLE_VALUE)
-		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to open serial port"));
+	if (m_parser.isSwitchSet(TEST))
+		return testPort(portNumber, out, err);
 
-	for (tstring line; std::getline(in, line);)
-	{
-		const std::string buffer = T2A(line);
-		if (!::WriteFile(device, buffer.data(), buffer.size(), nullptr, nullptr))
-			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
-	}
-
-	::CloseHandle(device);
-
-	return EXIT_SUCCESS;
+	return writeText(portNumber, in);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
