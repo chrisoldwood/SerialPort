@@ -1,0 +1,49 @@
+Development Structure
+---------------------
+
+The source folder structure is required by the solution & projects to be like
+this:-
+
++-SerialPort
++-Lib
+| +-Core
+| +-WCL
++-Scripts
+
+The following commands will create that structure by cloning the various
+application and library repositories:-
+
+> mkdir Win32
+> git clone https://github.com/chrisoldwood/SerialPort.git Win32\SerialPort
+> mkdir Win32\Lib
+> git clone https://github.com/chrisoldwood/Core.git Win32\Lib\Core
+> git clone https://github.com/chrisoldwood/WCL.git Win32\Lib\WCL
+<optional>
+> git clone https://github.com/chrisoldwood/Scripts.git Win32\Scripts
+
+Command Line Builds
+-------------------
+
+Included in the scripts folder is one for building via the command line:-
+
+> pushd Win32
+> Scripts\SetVars vc90
+> Scripts\Build debug SerialPort\SerialPort.sln
+
+There is also one for upgrading to a later version of Visual C++:-
+
+> Scripts\SetVars vc140
+> Scripts\Upgrade SerialPort\SerialPort.sln
+
+Release Checklist
+-----------------
+
+- Update version number (App.rcv).
+- Update documentation (ReadMe.txt and RelNotes.txt).
+- Build artefacts.
+- Build packages.
+- Tag repository.
+- Upload packages.
+
+Chris Oldwood 
+30th September 2017

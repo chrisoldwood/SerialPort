@@ -1,0 +1,7 @@
+30/09/2017: v0.1
+================
+
+- Write input text to a serial port using the default settings.
+
+Chris Oldwood 
+30th September 2017
