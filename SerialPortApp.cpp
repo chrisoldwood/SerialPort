@@ -20,6 +20,7 @@ enum
 	VERSION	= 1,	//!< Show the program version and copyright.
 	PORT	= 2,	//!< The COM port number.
 	TEST	= 3,	//!< Test if the port exists.
+	ECHO	= 4,	//!< Echo the input to stdout as well as the port.
 };
 
 static Core::CmdLineSwitch s_switches[] = 
@@ -29,6 +30,7 @@ static Core::CmdLineSwitch s_switches[] =
 	{ VERSION,	TXT("v"),	TXT("version"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the program version")			},
 	{ PORT,		TXT("p"),	TXT("port"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::SINGLE,	TXT("port"),	TXT("The COM port number to write to")		},
 	{ TEST,		NULL,		TXT("test"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Test if the COM port exists")			},
+	{ ECHO,		NULL,		TXT("echo"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Echo the port output to the screen")	},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
@@ -50,7 +52,7 @@ SerialPortApp::~SerialPortApp()
 ////////////////////////////////////////////////////////////////////////////////
 //! Write text from stdin to the serial port.
 
-static int writeText(uint portNumber, tistream& in)
+static int writeText(uint portNumber, tistream& in, bool echo, tostream& out)
 {
 	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
 	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
@@ -62,6 +64,9 @@ static int writeText(uint portNumber, tistream& in)
 		const std::string buffer = T2A(line);
 		if (!::WriteFile(device, buffer.data(), buffer.size(), nullptr, nullptr))
 			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
+
+		if (echo)
+			out << line << std::endl;
 	}
 
 	::CloseHandle(device);
@@ -121,7 +126,9 @@ int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tos
 	if (m_parser.isSwitchSet(TEST))
 		return testPort(portNumber, out, err);
 
-	return writeText(portNumber, in);
+	const bool echo = m_parser.isSwitchSet(ECHO);
+
+	return writeText(portNumber, in, echo, out);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
