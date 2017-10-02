@@ -1,5 +1,3 @@
-- Fix missing line endings.
-
 - Switch to dump the default port settings.
 
 - Switches to configure the port.

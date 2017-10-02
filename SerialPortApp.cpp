@@ -61,7 +61,8 @@ static int writeText(uint portNumber, tistream& in, bool echo, tostream& out)
 
 	for (tstring line; std::getline(in, line);)
 	{
-		const std::string buffer = T2A(line);
+		const std::string buffer = std::string(T2A(line)) + std::string("\r\n");
+
 		if (!::WriteFile(device, buffer.data(), buffer.size(), nullptr, nullptr))
 			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
 
