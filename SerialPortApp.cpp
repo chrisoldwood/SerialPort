@@ -21,6 +21,7 @@ enum
 	PORT	= 2,	//!< The COM port number.
 	TEST	= 3,	//!< Test if the port exists.
 	ECHO	= 4,	//!< Echo the input to stdout as well as the port.
+	DEFAULTS = 5,	//!< List the port default settings.
 };
 
 static Core::CmdLineSwitch s_switches[] = 
@@ -31,6 +32,7 @@ static Core::CmdLineSwitch s_switches[] =
 	{ PORT,		TXT("p"),	TXT("port"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::SINGLE,	TXT("port"),	TXT("The COM port number to write to")		},
 	{ TEST,		NULL,		TXT("test"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Test if the COM port exists")			},
 	{ ECHO,		NULL,		TXT("echo"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Echo the port output to the screen")	},
+	{ DEFAULTS,	NULL,		TXT("defaults"), Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("List the port default settings")		},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
@@ -97,6 +99,33 @@ static int testPort(uint portNumber, tostream& out, tostream& err)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Test if the serial port can be opened.
+
+static int listDefaults(uint portNumber, tostream& out)
+{
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+	if (device == INVALID_HANDLE_VALUE)
+		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to open serial port"));
+
+	DCB dcb = { sizeof(DCB) };
+
+	if (!::GetCommState(device, &dcb))
+		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to retrieve serial port state"));
+
+	out << TXT("Baud Rate: ") << dcb.BaudRate << std::endl;
+	out << TXT("Data Bits: ") << dcb.ByteSize << std::endl;
+	out << TXT("Parity: ") << dcb.Parity << std::endl;
+	out << TXT("Stop Bits: ") << dcb.StopBits << std::endl;
+	out << TXT("DTR Control: ") << dcb.fDtrControl << std::endl;
+	out << TXT("RTS Control: ") << dcb.fRtsControl << std::endl;
+
+	::CloseHandle(device);
+
+	return EXIT_SUCCESS;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Run the application.
 
 int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tostream& err)
@@ -126,6 +155,9 @@ int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tos
 
 	if (m_parser.isSwitchSet(TEST))
 		return testPort(portNumber, out, err);
+
+	if (m_parser.isSwitchSet(DEFAULTS))
+		return listDefaults(portNumber, out);
 
 	const bool echo = m_parser.isSwitchSet(ECHO);
 
