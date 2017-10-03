@@ -10,6 +10,7 @@
 #include <WCL/Win32Exception.hpp>
 #include <Core/CmdLineException.hpp>
 #include <Core/AnsiWide.hpp>
+#include <Core/RuntimeException.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 // The table of command line switches.
@@ -64,9 +65,14 @@ static int writeText(uint portNumber, tistream& in, bool echo, tostream& out)
 	for (tstring line; std::getline(in, line);)
 	{
 		const std::string buffer = std::string(T2A(line)) + std::string("\r\n");
+		const DWORD length = buffer.length();
+		DWORD written = 0;
 
-		if (!::WriteFile(device, buffer.data(), buffer.size(), nullptr, nullptr))
+		if (!::WriteFile(device, buffer.data(), length, &written, nullptr))
 			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
+
+		if (written != length)
+			throw Core::RuntimeException(Core::fmt(TXT("Failed to write %u bytes to the serial port, only wrote %u"), length, written));
 
 		if (echo)
 			out << line << std::endl;
@@ -113,12 +119,12 @@ static int listDefaults(uint portNumber, tostream& out)
 	if (!::GetCommState(device, &dcb))
 		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to retrieve serial port state"));
 
-	out << TXT("Baud Rate: ") << dcb.BaudRate << std::endl;
-	out << TXT("Data Bits: ") << dcb.ByteSize << std::endl;
-	out << TXT("Parity: ") << dcb.Parity << std::endl;
-	out << TXT("Stop Bits: ") << dcb.StopBits << std::endl;
-	out << TXT("DTR Control: ") << dcb.fDtrControl << std::endl;
-	out << TXT("RTS Control: ") << dcb.fRtsControl << std::endl;
+	out << TXT("Baud Rate: ") << static_cast<int>(dcb.BaudRate) << std::endl;
+	out << TXT("Data Bits: ") << static_cast<int>(dcb.ByteSize) << std::endl;
+	out << TXT("Parity: ") << static_cast<int>(dcb.Parity) << std::endl;
+	out << TXT("Stop Bits: ") << static_cast<int>(dcb.StopBits) << std::endl;
+	out << TXT("DTR Control: ") << static_cast<int>(dcb.fDtrControl) << std::endl;
+	out << TXT("RTS Control: ") << static_cast<int>(dcb.fRtsControl) << std::endl;
 
 	::CloseHandle(device);
 
