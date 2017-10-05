@@ -1,0 +1,4 @@
+.\ReadMe.txt
+.\RelNotes.txt
+.\Release\SerialPort.exe
+.\SerialPort.html
