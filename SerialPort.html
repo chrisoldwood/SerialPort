@@ -1,0 +1,119 @@
+<!doctype html public "-//w3c//dtd xhtml 1.0 strict//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
+<html>
+
+<head>
+<title>SerialPort Manual</title>
+<meta name="author" content="Chris Oldwood">
+<style>
+body	{ font-family: Verdana, Arial; font-size: 10pt }
+table	{ border-collapse: collapse }
+th		{ font-family: Verdana, Arial; font-size: 10pt; border: 1px solid black }
+td		{ font-family: Verdana, Arial; font-size: 10pt; border: 1px solid black; vertical-align: top; padding: 5px }
+</style>
+</head>
+
+<body>
+
+<h3 align="center">SerialPort v1.0</h3>
+
+<a name="Introduction"></a>
+<h4>Introduction</h4>
+
+<p>
+This is a command line (aka console) based tool for redirecting stdin to a
+serial port. This was written specially for use on Windows 95 where this
+behaviour is not built in.
+</p>
+
+<a name="PipingData"></a>
+<h4>Piping Data to the Serial Port</h4>
+
+<p>
+The default behaviour for the tool is to take lines of input on stdin and write
+them to a serial port defined with the <code>--port</code> switch. Whilst you
+can do this interactively it was always intended that you'd want to do this by
+piping the ouput through from a previous command, e.g.
+</p>
+<pre>
+> echo Hello, World! | SerialPort --port 3
+</pre>
+
+<a name="EchoSwitch"></a>
+<h4>The --echo Switch</h4>
+
+<p>
+By default any data coming through on stdin is silently directed to the serial
+port, but if you also want to echo it onto stdout you can specify the
+<code>--echo</code> switch
+</p>
+<pre>
+> echo Hello, World! | SerialPort --port 3 --echo
+Hello, World!
+</pre>
+
+<a name="TestSwitch"></a>
+<h4>The --test Switch</h4>
+
+<p>
+If you just need to veriy that a serial port exists on a certain port you can
+use the <code>--test</code> switch which just attempts to open the specified
+port. If the port was open okay it will write a success message on stdout and
+set <code>errorlevel</code> to 0. However if opening it fails then a failure
+message is written to stderr and <code>errorlevel</code> is set to a non-zero
+value.
+</p>
+<pre>
+> SerialPort --port 3 --test
+Port opened successfully.
+</pre>
+
+<a name="DefaultsSwitch"></a>
+<h4>The --defaults Switch</h4>
+
+<p>
+To find out what the default settings are for a given serial port you can use
+the <code>--defaults</code> switch. This will write out the basic port
+settings.
+</p>
+<pre>
+> SerialPort --port 3 --defaults
+Baud Rate: 1200
+Data Bits: 7
+Parity: 2
+Stop Bits: 0
+</pre>
+
+<hr>
+
+<a name="Warranty"></a>
+<h4>License & Warranty</h4>
+
+<p>
+This application is freeware - you get what you pay for, nothing more, nothing
+less.
+</p>
+
+<a name="SourceCode"></a>
+<h4>Source Code</h4>
+
+<p>
+The full source code (C++) is available from my web site listed below.
+</p>
+
+<a name="Contact"></a>
+<h4>Contact Details</h4>
+
+<p>
+Using the --version switch will also display my contact details. Please check the
+web site for updates.
+</p><p>
+Email: <a href="mailto://gort@cix.co.uk">gort@cix.co.uk</a><br>
+Web: <a href="http://www.chrisoldwood.com">www.chrisoldwood.com</a><br>
+</p><p>
+Chris Oldwood<br>
+5th October 2017<br>
+</p>
+
+</body>
+
+</html>

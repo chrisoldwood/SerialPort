@@ -20,7 +20,8 @@ https://github.com/chrisoldwood/SerialPort
 Documentation
 -------------
 
-None yet.
+There is an HTML based manual (SerialPort.html) which can be launched using the
+--manual switch.
 
 Development
 -----------

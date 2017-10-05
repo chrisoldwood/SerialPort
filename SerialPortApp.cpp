@@ -23,6 +23,7 @@ enum
 	TEST	= 3,	//!< Test if the port exists.
 	ECHO	= 4,	//!< Echo the input to stdout as well as the port.
 	DEFAULTS = 5,	//!< List the port default settings.
+	MANUAL	= 6,	//!< Show the manual.
 };
 
 static Core::CmdLineSwitch s_switches[] = 
@@ -34,6 +35,7 @@ static Core::CmdLineSwitch s_switches[] =
 	{ TEST,		NULL,		TXT("test"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Test if the COM port exists")			},
 	{ ECHO,		NULL,		TXT("echo"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Echo the port output to the screen")	},
 	{ DEFAULTS,	NULL,		TXT("defaults"), Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("List the port default settings")		},
+	{ MANUAL,	NULL,		TXT("manual"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the manual")					},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
@@ -148,6 +150,12 @@ int SerialPortApp::run(int argc, tchar* argv[], tistream& in, tostream& out, tos
 	else if (m_parser.isSwitchSet(VERSION))
 	{
 		showVersion(out);
+		return EXIT_SUCCESS;
+	}
+	// Request for the manual?
+	else if (m_parser.isSwitchSet(MANUAL))
+	{
+		showManual(err);
 		return EXIT_SUCCESS;
 	}
 

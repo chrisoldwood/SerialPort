@@ -260,6 +260,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\SerialPort.html"
+			>
+		</File>
+		<File
 			RelativePath=".\TODO.Txt"
 			>
 		</File>
