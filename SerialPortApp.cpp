@@ -107,6 +107,36 @@ static int testPort(uint portNumber, tostream& out, tostream& err)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Convert the parity value to a string.
+
+static tstring formatParity(BYTE parity)
+{
+	switch (parity)
+	{
+		case NOPARITY:		return TXT("None");
+		case ODDPARITY:		return TXT("Odd");
+		case EVENPARITY:	return TXT("Even");
+		case MARKPARITY:	return TXT("Mark");
+		case SPACEPARITY:	return TXT("Space");
+		default:	return Core::fmt(TXT("??? <value=%d>"), static_cast<int>(parity));
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Convert the stop bits value to a string.
+
+static tstring formatStopBits(BYTE stopBits)
+{
+	switch (stopBits)
+	{
+		case ONESTOPBIT:	return TXT("1");
+		case ONE5STOPBITS:	return TXT("1.5");
+		case TWOSTOPBITS:	return TXT("2");
+		default:			return Core::fmt(TXT("??? <value=%d>"), static_cast<int>(stopBits));
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Test if the serial port can be opened.
 
 static int listDefaults(uint portNumber, tostream& out)
@@ -123,10 +153,8 @@ static int listDefaults(uint portNumber, tostream& out)
 
 	out << TXT("Baud Rate: ") << static_cast<int>(dcb.BaudRate) << std::endl;
 	out << TXT("Data Bits: ") << static_cast<int>(dcb.ByteSize) << std::endl;
-	out << TXT("Parity: ") << static_cast<int>(dcb.Parity) << std::endl;
-	out << TXT("Stop Bits: ") << static_cast<int>(dcb.StopBits) << std::endl;
-	out << TXT("DTR Control: ") << static_cast<int>(dcb.fDtrControl) << std::endl;
-	out << TXT("RTS Control: ") << static_cast<int>(dcb.fRtsControl) << std::endl;
+	out << TXT("Parity   : ") << formatParity(dcb.Parity) << std::endl;
+	out << TXT("Stop Bits: ") << formatStopBits(dcb.StopBits) << std::endl;
 
 	::CloseHandle(device);
 
