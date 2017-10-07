@@ -21,8 +21,8 @@ application and library repositories:-
 <optional>
 > git clone https://github.com/chrisoldwood/Scripts.git Win32\Scripts
 
-Command Line Builds
--------------------
+Command Line Builds (Development)
+---------------------------------
 
 Included in the scripts folder is one for building via the command line:-
 
@@ -35,6 +35,32 @@ There is also one for upgrading to a later version of Visual C++:-
 > Scripts\SetVars vc140
 > Scripts\Upgrade SerialPort\SerialPort.sln
 
+Command Line Builds (Windows 95 Binaries)
+-----------------------------------------
+
+Whilst general development can be done using the VC++ 9.0 (VS2008) project
+files, to build a binary for Windows you will need VC++ 7.1 (VS2003). There
+is a script to downgrade the project files:-
+
+> pushd Win32
+> DowngradeTo71 Lib\Core
+> DowngradeTo71 Lib\WCL
+> DowngradeTo71 SerialPort
+
+The Lib\Core\WinTargets.hpp source file also needs to be reverted so that the
+target Windows version for the build is Windows 95+. Replace the #defines with
+the following:-
+
+#define WINVER          0x0400      //! Target Windows 95+
+#define _WIN32_WINNT    0x0400      //! Target Windows NT 4.0+
+#define _WIN32_WINDOWS  0x0400      //! Target Windows 95+
+#define _WIN32_IE       0x0400      //! Target Internet Explorer 4.0+
+
+Now we can build the solution using VC++ 7.1:-
+
+> Scripts\SetVars vc71
+> Scripts\Build debug SerialPort\SerialPort.sln
+
 Release Checklist
 -----------------
 
@@ -46,4 +72,4 @@ Release Checklist
 - Upload packages.
 
 Chris Oldwood 
-30th September 2017
+7th October 2017
