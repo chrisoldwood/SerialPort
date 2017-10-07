@@ -1,7 +1,22 @@
+??/??/????: v?.?
+================
+
+- Improved the output from the --defaults switch.
+- Added a manual.
+
+03/10/2017: v0.2
+================
+
+- Fixed the "invalid parameter" error when run on Windows 95.
+- Added switch to show the default port settings.
+- Fixed the missing line endings on the text sent to the port.
+- Added switch to echo the text sent to the port to stdout too.
+- Added switch to test if a port exists.
+
 30/09/2017: v0.1
 ================
 
 - Write input text to a serial port using the default settings.
 
 Chris Oldwood 
-30th September 2017
+7th October 2017
