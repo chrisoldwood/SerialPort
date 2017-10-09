@@ -38,14 +38,18 @@ There is also one for upgrading to a later version of Visual C++:-
 Command Line Builds (Windows 95 Binaries)
 -----------------------------------------
 
-Whilst general development can be done using the VC++ 9.0 (VS2008) project
-files, to build a binary for Windows you will need VC++ 7.1 (VS2003). There
-is a script to downgrade the project files:-
+Whilst general development can be done under a current version of Windows using
+the VC++ 9.0 (VS2008) project files, to build a binary for Windows 95 you will
+need VC++ 7.1 (VS2003) with SP1. There is a script to downgrade the 9.0 project
+files for 7.1:-
 
 > pushd Win32
 > DowngradeTo71 Lib\Core
 > DowngradeTo71 Lib\WCL
 > DowngradeTo71 SerialPort
+
+Note: The script just tweaks the file version numbers, switches from a Unicode
+build back to ANSI, and manually applies the /Eha exception handling flags.
 
 The Lib\Core\WinTargets.hpp source file also needs to be reverted so that the
 target Windows version for the build is Windows 95+. Replace the #defines with
@@ -60,6 +64,18 @@ Now we can build the solution using VC++ 7.1:-
 
 > Scripts\SetVars vc71
 > Scripts\Build debug SerialPort\SerialPort.sln
+
+You can also build the Windows 95 binaries using MinGW GCC 3.4.5 via the
+Code::Blocks project files. The following settings will need removing as they
+are only supported by later versions of GCC:-
+
+-Wmissing-declarations
+-Wmissing-include-dirs
+
+The follow additional flag needs removing to stop GCC 3.4.5 incorrectly
+complaining about the way the Windows API structures are initialised:-
+
+-Wextra
 
 Release Checklist
 -----------------
