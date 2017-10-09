@@ -11,6 +11,12 @@
 #include <Core/CmdLineException.hpp>
 #include <Core/AnsiWide.hpp>
 #include <Core/RuntimeException.hpp>
+#include <iostream>
+
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
+// missing initializer for member 'X'
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // The table of command line switches.
@@ -26,7 +32,7 @@ enum
 	MANUAL	= 6,	//!< Show the manual.
 };
 
-static Core::CmdLineSwitch s_switches[] = 
+static Core::CmdLineSwitch s_switches[] =
 {
 	{ USAGE,	TXT("?"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the program options syntax")	},
 	{ USAGE,	TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Display the program options syntax")	},
@@ -59,7 +65,7 @@ SerialPortApp::~SerialPortApp()
 
 static int writeText(uint portNumber, tistream& in, bool echo, tostream& out)
 {
-	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber);
 	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (device == INVALID_HANDLE_VALUE)
 		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to open serial port"));
@@ -90,7 +96,7 @@ static int writeText(uint portNumber, tistream& in, bool echo, tostream& out)
 
 static int testPort(uint portNumber, tostream& out, tostream& err)
 {
-	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber);
 	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 
 	if (device != INVALID_HANDLE_VALUE)
@@ -141,7 +147,7 @@ static tstring formatStopBits(BYTE stopBits)
 
 static int listDefaults(uint portNumber, tostream& out)
 {
-	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber); 
+	const tstring filename = Core::fmt(TXT("\\\\.\\COM%u"), portNumber);
 	const HANDLE device = ::CreateFile(filename.c_str(), GENERIC_READWRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (device == INVALID_HANDLE_VALUE)
 		throw WCL::Win32Exception(::GetLastError(), TXT("Failed to open serial port"));

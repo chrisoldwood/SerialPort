@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="DDECmd">
+		<Project filename="../Lib/Core/Core.cbp" />
+		<Project filename="../Lib/WCL/Wcl.cbp" />
+		<Project filename="SerialPort.cbp" active="1">
+			<Depends filename="../Lib/Core/Core.cbp" />
+			<Depends filename="../Lib/WCL/Wcl.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

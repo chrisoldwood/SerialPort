@@ -4,3 +4,8 @@
 *.ncb
 *.suo
 *.user
+
+# Code::Blocks
+*.layout
+*.depend
+*.gch
