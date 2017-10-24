@@ -1,6 +1,7 @@
-??/??/????: v?.?
+24/10/2017: v0.3
 ================
 
+- Added --settings switch to configuration the COM port.
 - Improved the output from the --defaults switch.
 - Added a manual.
 
@@ -19,4 +20,4 @@
 - Write input text to a serial port using the default settings.
 
 Chris Oldwood 
-7th October 2017
+24th October 2017

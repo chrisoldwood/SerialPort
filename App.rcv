@@ -6,8 +6,8 @@
 #include <winver.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION		0,2,0,0
-PRODUCTVERSION	0,2,0,0
+FILEVERSION		0,3,0,0
+PRODUCTVERSION	0,3,0,0
 FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
 FILEFLAGS		VS_FF_DEBUG | VS_FF_PRERELEASE
@@ -23,12 +23,12 @@ BEGIN
 		BLOCK "080904E4"
 		BEGIN
 			VALUE "FileDescription",  "SerialPort\0"
-			VALUE "FileVersion",      "0.2\0"
+			VALUE "FileVersion",      "0.3\0"
 			VALUE "InternalName",     "SerialPort.exe\0"
 			VALUE "LegalCopyright",   "(C) Chris Oldwood 2017\0"
 			VALUE "OriginalFilename", "SerialPort.exe\0"
 			VALUE "ProductName",      "Serial Port\0"
-			VALUE "ProductVersion",   "0.2\0"
+			VALUE "ProductVersion",   "0.3\0"
 #ifdef _DEBUG
 			VALUE "Comments",         "Debug Build\0"
 #endif
