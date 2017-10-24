@@ -87,6 +87,24 @@ Stop Bits: 0
 using <code>mode comX: /status</code>.</i>
 </p>
 
+<a name="SettingsSwitch"></a>
+<h4>The --settings Switch</h4>
+
+<p>
+To change the COM port configuration you can use the <code>--settings</code>
+switch. The argument value is a comma-separated list of values for the baud
+rate, parity, data bits and stop bits. The parity can be the first letter or
+whole word of: none, odd, even, mark or space. The number of data bits can be
+between 5 and 8, and the numbr of stop bits is 1, 1.5 or 2.
+</p>
+<pre>
+> SerialPort --port 3 --settings 9600,N,8,1
+</pre>
+<p>
+<i>Note: Some combinations of data bits and stop bits are invalid, e.g. 5 with 2
+and 6/7/8 with 1.5.</i>
+</p>
+
 <hr>
 
 <a name="Warranty"></a>
@@ -115,7 +133,7 @@ Email: <a href="mailto://gort@cix.co.uk">gort@cix.co.uk</a><br>
 Web: <a href="http://www.chrisoldwood.com">www.chrisoldwood.com</a><br>
 </p><p>
 Chris Oldwood<br>
-5th October 2017<br>
+24th October 2017<br>
 </p>
 
 </body>
