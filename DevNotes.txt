@@ -81,11 +81,11 @@ Release Checklist
 -----------------
 
 - Update version number (App.rcv).
-- Update documentation (ReadMe.txt and RelNotes.txt).
+- Update documentation (ReadMe.txt, RelNotes.txt and SerialPort.html).
 - Build artefacts.
 - Build packages.
 - Tag repository.
 - Upload packages.
 
 Chris Oldwood 
-7th October 2017
+9th October 2018

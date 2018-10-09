@@ -1,4 +1,4 @@
-SerialPort v0.1
+SerialPort v1.0
 ===============
 
 Introduction
@@ -35,4 +35,4 @@ Email: gort@cix.co.uk
 Web:   http://www.chrisoldwood.com
 
 Chris Oldwood 
-30th September 2017
+9th October 2018

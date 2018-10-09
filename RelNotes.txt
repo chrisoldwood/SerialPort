@@ -1,3 +1,8 @@
+09/10/2018: v1.0
+================
+
+- First public release.
+
 24/10/2017: v0.3
 ================
 
@@ -20,4 +25,4 @@
 - Write input text to a serial port using the default settings.
 
 Chris Oldwood 
-24th October 2017
+9th October 2018
