@@ -98,7 +98,7 @@ static tstring formatParity(BYTE parity)
 
 static BYTE parseParity(tstring value)
 {
-	std::transform(value.begin(), value.end(), value.begin(), ::toupper);
+	std::transform(value.begin(), value.end(), value.begin(), ::ttoupper);
 
 	if (value == TXT("N") || value == TXT("NONE"))
 		return NOPARITY;
