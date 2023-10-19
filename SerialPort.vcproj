@@ -272,6 +272,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Install"
+			>
+			<File
+				RelativePath=".\PkgList.txt"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

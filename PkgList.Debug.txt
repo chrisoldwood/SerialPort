@@ -1,4 +1,0 @@
-.\ReadMe.txt
-.\RelNotes.txt
-.\Debug\SerialPort.exe
-.\SerialPort.html
