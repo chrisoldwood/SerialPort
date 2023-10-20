@@ -171,7 +171,7 @@ static int writeText(uint portNumber, const tstring& settings, tistream& in, boo
 		const size_t count = Core::Tokeniser::split(settings, TXT(","), tokens);
 
 		if (count != 4)
-			throw Core::CmdLineException(Core::fmt(TXT("Invalid number of COM port settings, got %u value(s), expected 4"), count));
+			throw Core::CmdLineException(Core::fmt(TXT("Invalid number of COM port settings, got %Iu value(s), expected 4"), count));
 
 		dcb.BaudRate = Core::parse<DWORD>(tokens[0]);
 		dcb.Parity = parseParity(tokens[1]);
@@ -192,7 +192,7 @@ static int writeText(uint portNumber, const tstring& settings, tistream& in, boo
 			throw WCL::Win32Exception(::GetLastError(), TXT("Failed to write to serial port"));
 
 		if (written != length)
-			throw Core::RuntimeException(Core::fmt(TXT("Failed to write %u bytes to the serial port, only wrote %u"), length, written));
+			throw Core::RuntimeException(Core::fmt(TXT("Failed to write %lu bytes to the serial port, only wrote %lu"), length, written));
 
 		if (echo)
 			out << line << std::endl;
