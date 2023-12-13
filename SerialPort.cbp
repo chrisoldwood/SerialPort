@@ -47,6 +47,7 @@
 			<Add option="-Wswitch-default" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-m32" />
 			<Add option="-Wmissing-include-dirs" />
 			<Add option="-Wmissing-format-attribute" />
 			<Add option="-Werror" />
@@ -59,9 +60,11 @@
 			<Add directory="../Lib" />
 		</Compiler>
 		<ResourceCompiler>
+			<Add option="--target pe-i386" />
 			<Add directory="../Lib" />
 		</ResourceCompiler>
 		<Linker>
+			<Add option="-m32" />
 			<Add library="ole32" />
 			<Add library="oleaut32" />
 			<Add library="uuid" />
